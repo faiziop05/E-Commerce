@@ -48,6 +48,7 @@ export function SecondApp() {
       } catch (e) {
         console.warn(e);
       } finally {
+
         setAppIsReady(true);
       }
     }
