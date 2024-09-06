@@ -8,6 +8,7 @@ import {
   Dimensions,
   FlatList,
   ScrollViewBase,
+  ActivityIndicator,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -73,12 +74,12 @@ const fetchAllProducts = async () => {
         // Add any other headers here if needed, such as authorization.
       },
     });
-
+    
     // Check if the request was successful (status code 2xx)
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
-
+    
     // Parse and return the JSON data from the response
     const result = await response.json();
     return result;
@@ -89,9 +90,22 @@ const fetchAllProducts = async () => {
   }
 };
 
-const HomeScreen = () => {
+const HomeScreen = ({navigation}) => {
   const [product, setProducts] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
+  
+  const shuffleArray = (array) => {
+    // Loop through the array from the last element to the first
+    for (let i = array.length - 1; i > 0; i--) {
+      // Generate a random index from 0 to i
+      const j = Math.floor(Math.random() * (i + 1));
+      // Swap elements at i and j
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  };
 
+const shuffledProducts=shuffleArray(product)
   useEffect(() => {
     const fetchProfile = async () => {
       try {
@@ -149,6 +163,7 @@ const HomeScreen = () => {
             </TouchableOpacity>
           </View>
         </View>
+        <ActivityIndicator animating={refreshing} color="#0000ff" />
 
         <View style={styles.bottomContainer}>
           <View style={styles.CategoryHeadingSeeAlllWrapper}>
@@ -174,17 +189,18 @@ const HomeScreen = () => {
             {/* Change the key prop based on numColumns to force re-rendering */}
             <View style={styles.cardItemWrapper}>
               <FlatList
-                data={product}
+                data={shuffledProducts}
+                scrollEnabled={false}
                 renderItem={(data) => (
-                  <TouchableOpacity >
+                  <TouchableOpacity onPress={()=>{navigation.navigate("ItemDetails",{ data:data.item})}}>
                     <ItemCard products={data.item} />
                   </TouchableOpacity>
                 )}
-                keyExtractor={(item) => item.id.toString()} // Ensure each item has a unique key
-                numColumns={2} // This sets 2 items per row
-                key={2} // Force FlatList to re-render when numColumns changes
-                columnWrapperStyle={styles.row} // Style to manage spacing between rows
-                contentContainerStyle={styles.listContainer} // Optional: Add padding/margin to container if needed
+                keyExtractor={(item) => item.id.toString()} 
+                numColumns={2} 
+                key={2} 
+                columnWrapperStyle={styles.row} 
+                contentContainerStyle={styles.listContainer}
               />
             </View>
           </View>

@@ -237,7 +237,7 @@ const styles = StyleSheet.create({
     height: 50,
     borderWidth: 0.5,
     borderColor: colors.GRAY,
-    borderRadius: "25",
+    borderRadius: 25,
     padding: 10,
     alignItems: "center",
     justifyContent: "center",

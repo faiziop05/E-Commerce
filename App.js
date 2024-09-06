@@ -3,7 +3,7 @@ import "./gesture-handler";
 import React, { useCallback, useEffect, useState } from "react";
 import * as SplashScreen from "expo-splash-screen";
 import * as Font from "expo-font";
-import { HomeScreen, SignIn, SignUp } from "./AllScreens";
+import { HomeScreen, ItemDetails, SignIn, SignUp } from "./AllScreens";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 const { Screen, Navigator } = createStackNavigator();
@@ -11,6 +11,8 @@ import { StatusBar } from "expo-status-bar";
 import BottomTabNav from "./AllScreens/Screens/BottomTabNav";
 import Store from "./redux/Store";
 import { Provider, useSelector } from "react-redux";
+import { Platform } from "react-native";
+
 export function SecondApp() {
   const [appIsReady, setAppIsReady] = useState(false);
   const IsLoggedIn = useSelector((state) => state.loginStatus.IsLoggedIn);
@@ -19,8 +21,10 @@ export function SecondApp() {
     async function prepare() {
       try {
         // Keep the splash screen visible while fetching resources
-        await SplashScreen.preventAutoHideAsync();
-
+        if (Platform.OS === 'ios') {
+          await SplashScreen.preventAutoHideAsync();
+        }
+        
         // Load fonts
         await Font.loadAsync({
           Inter_Black: require("./assets/static/Inter_18pt-Black.ttf"),
@@ -48,7 +52,6 @@ export function SecondApp() {
       } catch (e) {
         console.warn(e);
       } finally {
-
         setAppIsReady(true);
       }
     }
@@ -64,24 +67,26 @@ export function SecondApp() {
   }, [appIsReady]);
 
   if (!appIsReady) {
-    return null;
+    return null; // Render nothing while fonts are loading
   }
 
   return (
-<NavigationContainer onReady={onLayoutRootView}>
-  <Navigator screenOptions={{ headerShown: false }}>
-    {IsLoggedIn ? (
-      <Screen name="BottomTabNav" component={BottomTabNav} />
-    ) : (
-      <>
-        <Screen name="SignIn" component={SignIn} />
-        <Screen name="SignUp" component={SignUp} />
-      </>
-    )}
-  </Navigator>
-  <StatusBar backgroundColor="#FFFFFF" />
-</NavigationContainer>
-
+    <NavigationContainer onReady={onLayoutRootView}>
+      <Navigator screenOptions={{ headerShown: false }}>
+        {IsLoggedIn ? (
+          <>
+            <Screen name="BottomTabNav" component={BottomTabNav} />
+            <Screen name="ItemDetails" component={ItemDetails} />
+          </>
+        ) : (
+          <>
+            <Screen name="SignIn" component={SignIn} />
+            <Screen name="SignUp" component={SignUp} />
+          </>
+        )}
+      </Navigator>
+      <StatusBar backgroundColor="#FFFFFF" />
+    </NavigationContainer>
   );
 }
 

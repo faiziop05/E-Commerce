@@ -7,7 +7,7 @@ const ItemCard = ({ products }) => {
   return (
     <View style={styles.cardContainer}>
       <Image 
-        source={{ uri: products.category.image }} 
+        source={{ uri: products.images[0] }} 
         style={styles.image}  // Apply styling for the image size
       />
       <Text numberOfLines={1} ellipsizeMode='tail' style={styles.title}>{products.title}</Text>
