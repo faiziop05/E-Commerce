@@ -7,8 +7,9 @@ import {
   TouchableOpacity,
   Dimensions,
   FlatList,
+  ScrollViewBase,
 } from "react-native";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { colors } from "../../COLORS";
@@ -21,10 +22,11 @@ const screenWidth = Dimensions.get("window").width;
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Entypo from "@expo/vector-icons/Entypo";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
-import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
+import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import { FONTS } from "../../Fonts";
 import CategoryIcon from "../../Components/CategoryIcon";
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import ItemCard from "./ItemCard";
 const fetchUserdata = async (url2, AccessToken) => {
   try {
     const response = await fetch(url2, {
@@ -43,25 +45,53 @@ const Categories = [
   {
     icon: FontAwesome5,
     name: "tshirt",
-    text:'Clothes'
+    text: "Clothes",
   },
   {
     icon: FontAwesome6,
     name: "computer",
-    text:'Electronics'
+    text: "Electronics",
   },
   {
     icon: MaterialCommunityIcons,
     name: "shoe-sneaker",
-    text:'Shoes'
+    text: "Shoes",
   },
   {
     icon: MaterialIcons,
     name: "watch",
-    text:'Watches'
+    text: "Watches",
   },
 ];
+
+const fetchAllProducts = async () => {
+  try {
+    const response = await fetch("https://api.escuelajs.co/api/v1/products", {
+      method: "GET", // 'GET' is the default method, so you can omit this line if you want.
+      headers: {
+        "Content-Type": "application/json",
+        // Add any other headers here if needed, such as authorization.
+      },
+    });
+
+    // Check if the request was successful (status code 2xx)
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    // Parse and return the JSON data from the response
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error(`Error fetching products: ${error.message}`);
+    // Handle the error (you can also return a custom message or null)
+    return null;
+  }
+};
+
 const HomeScreen = () => {
+  const [product, setProducts] = useState([]);
+
   useEffect(() => {
     const fetchProfile = async () => {
       try {
@@ -75,8 +105,6 @@ const HomeScreen = () => {
 
           // Call the fetchUserdata function with the token
           const userdata = await fetchUserdata(uri2, AccessToken);
-
-          console.log(userdata); // Logs the fetched user data
         } else {
           console.log("No Access Token found");
         }
@@ -88,6 +116,15 @@ const HomeScreen = () => {
     fetchProfile(); // Invoke the async function inside useEffect
   }, []);
 
+  useEffect(() => {
+    fetchAllProducts().then((res) => {
+      if (res) {
+        setProducts(res);
+      } else {
+        console.log("Failed to fetch products.");
+      }
+    });
+  }, []);
   return (
     <ScrollView style={styles.container}>
       <View>
@@ -124,10 +161,33 @@ const HomeScreen = () => {
             data={Categories}
             horizontal
             showsHorizontalScrollIndicator={false}
-            renderItem={( data ) => (
-              <CategoryIcon name={data.item.name} Icon={data.item.icon} text={data.item.text} />
+            renderItem={(data) => (
+              <CategoryIcon
+                name={data.item.name}
+                Icon={data.item.icon}
+                text={data.item.text}
+              />
             )}
           />
+          <View>
+            <Text style={styles.FreshSalesHeading}>Fresh Sales</Text>
+            {/* Change the key prop based on numColumns to force re-rendering */}
+            <View style={styles.cardItemWrapper}>
+              <FlatList
+                data={product}
+                renderItem={(data) => (
+                  <TouchableOpacity >
+                    <ItemCard products={data.item} />
+                  </TouchableOpacity>
+                )}
+                keyExtractor={(item) => item.id.toString()} // Ensure each item has a unique key
+                numColumns={2} // This sets 2 items per row
+                key={2} // Force FlatList to re-render when numColumns changes
+                columnWrapperStyle={styles.row} // Style to manage spacing between rows
+                contentContainerStyle={styles.listContainer} // Optional: Add padding/margin to container if needed
+              />
+            </View>
+          </View>
         </View>
       </View>
       <StatusBar style="light" />
@@ -213,14 +273,31 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     marginHorizontal: 15,
-    alignItems:"center"
+    alignItems: "center",
   },
   CategoryHeading: {
     fontSize: 26,
     fontFamily: FONTS.Inter_Medium,
   },
-  bottomContainer:{
-    marginTop:30,
-    marginHorizontal:10
-  }
+  FreshSalesHeading: {
+    fontSize: 26,
+    marginLeft: 12,
+    marginTop: 10,
+    fontFamily: FONTS.Inter_Medium,
+  },
+  bottomContainer: {
+    marginTop: 30,
+    marginHorizontal: 10,
+  },
+  cardItemWrapper: {
+    marginTop: 20,
+  },
+  row: {
+    justifyContent: "space-between", // Ensures space between the two items
+    marginBottom: 10, // Space between rows
+  },
+  listContainer: {
+    // Optional: Add some padding if needed
+    marginHorizontal: "1%",
+  },
 });
