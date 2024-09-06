@@ -7,8 +7,7 @@ import {
   TouchableOpacity,
   Dimensions,
   FlatList,
-  ScrollViewBase,
-  ActivityIndicator,
+  Platform,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -74,12 +73,12 @@ const fetchAllProducts = async () => {
         // Add any other headers here if needed, such as authorization.
       },
     });
-    
+
     // Check if the request was successful (status code 2xx)
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
-    
+
     // Parse and return the JSON data from the response
     const result = await response.json();
     return result;
@@ -90,22 +89,11 @@ const fetchAllProducts = async () => {
   }
 };
 
-const HomeScreen = ({navigation}) => {
+const HomeScreen = ({ navigation }) => {
   const [product, setProducts] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
-  
-  const shuffleArray = (array) => {
-    // Loop through the array from the last element to the first
-    for (let i = array.length - 1; i > 0; i--) {
-      // Generate a random index from 0 to i
-      const j = Math.floor(Math.random() * (i + 1));
-      // Swap elements at i and j
-      [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
-  };
 
-const shuffledProducts=shuffleArray(product)
+
   useEffect(() => {
     const fetchProfile = async () => {
       try {
@@ -139,8 +127,12 @@ const shuffledProducts=shuffleArray(product)
       }
     });
   }, []);
+
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView
+      onScrollAnimationEnd={() => setRefreshing(false)}
+      style={styles.container}
+    >
       <View>
         <View style={styles.toporangeContainer}>
           <SafeAreaView style={styles.locationNotificationWrapper}>
@@ -163,7 +155,6 @@ const shuffledProducts=shuffleArray(product)
             </TouchableOpacity>
           </View>
         </View>
-        <ActivityIndicator animating={refreshing} color="#0000ff" />
 
         <View style={styles.bottomContainer}>
           <View style={styles.CategoryHeadingSeeAlllWrapper}>
@@ -189,17 +180,21 @@ const shuffledProducts=shuffleArray(product)
             {/* Change the key prop based on numColumns to force re-rendering */}
             <View style={styles.cardItemWrapper}>
               <FlatList
-                data={shuffledProducts}
+                data={product}
                 scrollEnabled={false}
                 renderItem={(data) => (
-                  <TouchableOpacity onPress={()=>{navigation.navigate("ItemDetails",{ data:data.item})}}>
+                  <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate("ItemDetails", { data: data.item });
+                    }}
+                  >
                     <ItemCard products={data.item} />
                   </TouchableOpacity>
                 )}
-                keyExtractor={(item) => item.id.toString()} 
-                numColumns={2} 
-                key={2} 
-                columnWrapperStyle={styles.row} 
+                keyExtractor={(item) => item.id.toString()}
+                numColumns={2}
+                key={2}
+                columnWrapperStyle={styles.row}
                 contentContainerStyle={styles.listContainer}
               />
             </View>
@@ -242,6 +237,7 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
+    marginBottom: Platform.OS == "android" ? 10 : 0,
   },
   locationCityText: {
     fontFamily: FONTS.Inter_Medium,
