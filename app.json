@@ -18,37 +18,79 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.faiziop05.ecom"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
-        [
-          "expo-font",
+      [
+        "expo-font",
         {
           "fonts": [
-            { "Inter_18pt-Black": "./assets/static/Inter_18pt-Black.ttf" },
-            { "Inter_18pt-BlackItalic": "./assets/static/Inter_18pt-BlackItalic.ttf" },
-            { "Inter_18pt-Bold": "./assets/static/Inter_18pt-Bold.ttf" },
-            { "Inter_18pt-BoldItalic": "./assets/static/Inter_18pt-BoldItalic.ttf" },
-            { "Inter_18pt-ExtraBold": "./assets/static/Inter_18pt-ExtraBold.ttf" },
-            { "Inter_18pt-ExtraBoldItalic": "./assets/static/Inter_18pt-ExtraBoldItalic.ttf" },
-            { "Inter_18pt-ExtraLight": "./assets/static/Inter_18pt-ExtraLight.ttf" },
-            { "Inter_18pt-ExtraLightItalic": "./assets/static/Inter_18pt-ExtraLightItalic.ttf" },
-            { "Inter_18pt-Italic": "./assets/static/Inter_18pt-Italic.ttf" },
-            { "Inter_18pt-Light": "./assets/static/Inter_18pt-Light.ttf" },
-            { "Inter_18pt-LightItalic": "./assets/static/Inter_18pt-LightItalic.ttf" },
-            { "Inter_18pt-Medium": "./assets/static/Inter_18pt-Medium.ttf" },
-            { "Inter_18pt-MediumItalic": "./assets/static/Inter_18pt-MediumItalic.ttf" },
-            { "Inter_18pt-Regular": "./assets/static/Inter_18pt-Regular.ttf" },
-            { "Inter_18pt-SemiBold": "./assets/static/Inter_18pt-SemiBold.ttf" },
-            { "Inter_18pt-SemiBoldItalic": "./assets/static/Inter_18pt-SemiBoldItalic.ttf" },
-            { "Inter_18pt-Thin": "./assets/static/Inter_18pt-Thin.ttf" },
-            { "Inter_18pt-ThinItalic": "./assets/static/Inter_18pt-ThinItalic.ttf" }
+            {
+              "Inter_18pt-Black": "./assets/static/Inter_18pt-Black.ttf"
+            },
+            {
+              "Inter_18pt-BlackItalic": "./assets/static/Inter_18pt-BlackItalic.ttf"
+            },
+            {
+              "Inter_18pt-Bold": "./assets/static/Inter_18pt-Bold.ttf"
+            },
+            {
+              "Inter_18pt-BoldItalic": "./assets/static/Inter_18pt-BoldItalic.ttf"
+            },
+            {
+              "Inter_18pt-ExtraBold": "./assets/static/Inter_18pt-ExtraBold.ttf"
+            },
+            {
+              "Inter_18pt-ExtraBoldItalic": "./assets/static/Inter_18pt-ExtraBoldItalic.ttf"
+            },
+            {
+              "Inter_18pt-ExtraLight": "./assets/static/Inter_18pt-ExtraLight.ttf"
+            },
+            {
+              "Inter_18pt-ExtraLightItalic": "./assets/static/Inter_18pt-ExtraLightItalic.ttf"
+            },
+            {
+              "Inter_18pt-Italic": "./assets/static/Inter_18pt-Italic.ttf"
+            },
+            {
+              "Inter_18pt-Light": "./assets/static/Inter_18pt-Light.ttf"
+            },
+            {
+              "Inter_18pt-LightItalic": "./assets/static/Inter_18pt-LightItalic.ttf"
+            },
+            {
+              "Inter_18pt-Medium": "./assets/static/Inter_18pt-Medium.ttf"
+            },
+            {
+              "Inter_18pt-MediumItalic": "./assets/static/Inter_18pt-MediumItalic.ttf"
+            },
+            {
+              "Inter_18pt-Regular": "./assets/static/Inter_18pt-Regular.ttf"
+            },
+            {
+              "Inter_18pt-SemiBold": "./assets/static/Inter_18pt-SemiBold.ttf"
+            },
+            {
+              "Inter_18pt-SemiBoldItalic": "./assets/static/Inter_18pt-SemiBoldItalic.ttf"
+            },
+            {
+              "Inter_18pt-Thin": "./assets/static/Inter_18pt-Thin.ttf"
+            },
+            {
+              "Inter_18pt-ThinItalic": "./assets/static/Inter_18pt-ThinItalic.ttf"
+            }
           ]
         }
-        ]
-    ]
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "16213097-5d8f-41e7-abc5-7b768edaae1a"
+      }
+    }
   }
 }

@@ -3,4 +3,5 @@ import SignIn from "./Screens/SignIn";
 import SignUp from "./Screens/SignUp";
 import Profile from "./Screens/Profile";
 import ItemDetails from "./Screens/ItemDetails";
-export {SignIn,ItemDetails,SignUp,HomeScreen,Profile}
+import Cart from "./Screens/Cart";
+export {SignIn,ItemDetails,SignUp,HomeScreen,Profile,Cart}

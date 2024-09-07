@@ -7,6 +7,7 @@ import { colors } from "../../COLORS";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { FONTS } from "../../Fonts";
+
 const Tab = createBottomTabNavigator();
 const BottomTabNav = () => {
   return (
@@ -15,13 +16,13 @@ const BottomTabNav = () => {
         headerShown: false,
         tabBarActiveTintColor: colors.LIGHT_RED,
         tabBarInactiveTintColor: colors.GRAY,
-        tabBarLabelStyle:{fontFamily:FONTS.Inter_Black},
-        tabBarStyle:{backgroundColor:colors.WHITE}
+        tabBarLabelStyle: { fontFamily: FONTS.Inter_Black },
+        tabBarStyle: { backgroundColor: colors.WHITE },
       }}
     >
       <Tab.Screen
         options={{
-          tabBarIcon: ({focused}) => {
+          tabBarIcon: ({ focused }) => {
             return (
               <MaterialCommunityIcons
                 name="home"
@@ -34,9 +35,10 @@ const BottomTabNav = () => {
         name="Home"
         component={HomeScreen}
       />
+
       <Tab.Screen
         options={{
-          tabBarIcon: ({focused}) => {
+          tabBarIcon: ({ focused }) => {
             return (
               <Ionicons
                 name="person"

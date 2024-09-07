@@ -4,10 +4,10 @@ import { colors } from "../COLORS";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { FONTS } from "../Fonts";
 
-const CategoryIcon = ({name,Icon,text}) => {
+const CategoryIcon = ({name,Icon,text,onpress}) => {
     
   return (
-    <TouchableOpacity  style={styles.catogariesIconTetWrapper}>
+    <TouchableOpacity onPress={onpress}  style={styles.catogariesIconTetWrapper}>
       <View style={styles.catogariesiconWraper}>
         <Icon name={name} size={24} color={colors.LIGHT_RED} />
       </View>

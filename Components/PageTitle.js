@@ -13,6 +13,7 @@ const styles = StyleSheet.create({
 title:{
     fontFamily:FONTS.Inter_Medium,
     fontSize:20,
-    color:colors.GRAY
+    color:colors.GRAY,
+    alignSelf:"center"
 }
 });

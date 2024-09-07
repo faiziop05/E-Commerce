@@ -3,7 +3,7 @@ import "./gesture-handler";
 import React, { useCallback, useEffect, useState } from "react";
 import * as SplashScreen from "expo-splash-screen";
 import * as Font from "expo-font";
-import { HomeScreen, ItemDetails, SignIn, SignUp } from "./AllScreens";
+import { Cart, ItemDetails, SignIn, SignUp } from "./AllScreens";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 const { Screen, Navigator } = createStackNavigator();
@@ -21,10 +21,10 @@ export function SecondApp() {
     async function prepare() {
       try {
         // Keep the splash screen visible while fetching resources
-        if (Platform.OS === 'ios') {
+        if (Platform.OS === "ios") {
           await SplashScreen.preventAutoHideAsync();
         }
-        
+
         // Load fonts
         await Font.loadAsync({
           Inter_Black: require("./assets/static/Inter_18pt-Black.ttf"),
@@ -77,6 +77,7 @@ export function SecondApp() {
           <>
             <Screen name="BottomTabNav" component={BottomTabNav} />
             <Screen name="ItemDetails" component={ItemDetails} />
+            <Screen name="Cart" component={Cart} />
           </>
         ) : (
           <>

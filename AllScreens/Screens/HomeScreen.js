@@ -88,12 +88,52 @@ const fetchAllProducts = async () => {
     return null;
   }
 };
+const SEARCHProducts = async (searchText) => {
+  try {
+    const response = await fetch(
+      `https://api.escuelajs.co/api/v1/products/?title=${searchText}`,
+      {
+        method: "GET", // 'GET' is the default method, so you can omit this line if you want.
+        headers: {
+          "Content-Type": "application/json",
+          // Add any other headers here if needed, such as authorization.
+        },
+      }
+    );
+
+    // Check if the request was successful (status code 2xx)
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    // Parse and return the JSON data from the response
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error(`Error fetching products: ${error.message}`);
+    // Handle the error (you can also return a custom message or null)
+    return null;
+  }
+};
 
 const HomeScreen = ({ navigation }) => {
   const [product, setProducts] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
+  const [searchText, setSearchText] = useState("");
+  const handlesearch = (value) => {
+    setSearchText(value)
 
-
+    
+    SEARCHProducts(searchText).then((res) => {
+      if (res) {
+        setProducts(res);
+      } else if (searchText == "") {
+        fetchAllProducts();
+      } else {
+        console.log("Failed to fetch products.");
+      }
+    });
+  };
   useEffect(() => {
     const fetchProfile = async () => {
       try {
@@ -127,7 +167,18 @@ const HomeScreen = ({ navigation }) => {
       }
     });
   }, []);
-
+  const handleCategoryPress=(text)=>{
+    SEARCHProducts(text).then((res) => {
+      if (res) {
+        setProducts(res);
+      } else if (searchText == "") {
+        fetchAllProducts();
+      } else {
+        console.log("Failed to fetch products.");
+      }
+    });
+    
+  }
   return (
     <ScrollView
       onScrollAnimationEnd={() => setRefreshing(false)}
@@ -144,12 +195,20 @@ const HomeScreen = ({ navigation }) => {
                 <Entypo name="chevron-small-down" size={26} color="white" />
               </TouchableOpacity>
             </View>
-            <TouchableOpacity style={styles.loctionIconWrapper}>
-              <Ionicons name="notifications" size={24} color="white" />
+            <TouchableOpacity
+              onPress={() => navigation.navigate("Cart")}
+              style={styles.loctionIconWrapper}
+            >
+              <Ionicons name="cart" size={24} color={colors.WHITE} />
             </TouchableOpacity>
           </SafeAreaView>
           <View style={styles.searchInputFilterWrapper}>
-            <TextInput placeholder="Search" style={styles.searchInput} />
+            <TextInput
+            value={searchText}
+              onChangeText={(value)=>handlesearch(value)}
+              placeholder="Search"
+              style={styles.searchInput}
+            />
             <TouchableOpacity style={styles.SeachfilterButton}>
               <AntDesign name="filter" size={24} color={colors.LIGHT_RED} />
             </TouchableOpacity>
@@ -168,7 +227,7 @@ const HomeScreen = ({ navigation }) => {
             horizontal
             showsHorizontalScrollIndicator={false}
             renderItem={(data) => (
-              <CategoryIcon
+              <CategoryIcon onpress={()=>handleCategoryPress(data.item.text)}
                 name={data.item.name}
                 Icon={data.item.icon}
                 text={data.item.text}
@@ -182,6 +241,7 @@ const HomeScreen = ({ navigation }) => {
               <FlatList
                 data={product}
                 scrollEnabled={false}
+                maxToRenderPerBatch={20}
                 renderItem={(data) => (
                   <TouchableOpacity
                     onPress={() => {
