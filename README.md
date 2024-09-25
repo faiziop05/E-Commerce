@@ -1,6 +1,6 @@
 # E-Commerce App
 
-An e-commerce mobile application built using **React Native** and **Expo**. The app provides a seamless shopping experience with features like product listing, cart management, and user authentication. The app integrates state management using Redux and navigation with React Navigation.
+An e-commerce mobile application built using **React Native**, **Expo** and open source **E-commerce API**. The app provides a seamless shopping experience with features like product listing, cart management, and user authentication. The app integrates state management using Redux and navigation with React Navigation.
 
 ## 🖼 Screenshots
 
