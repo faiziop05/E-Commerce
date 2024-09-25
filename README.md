@@ -80,6 +80,5 @@ Contributions are welcome! Please feel free to submit a pull request or open an 
 If you have any questions or suggestions, feel free to contact me:
 
 Email: faizanhanif369@gmail.com
-LinkedIn: Faizan Hanif
 
 © 2024 Faizan Hanif
