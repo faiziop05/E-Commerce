@@ -1,14 +1,12 @@
 # E-Commerce App
 
-![Logo](path-to-your-logo.png)
-
 An e-commerce mobile application built using **React Native** and **Expo**. The app provides a seamless shopping experience with features like product listing, cart management, and user authentication. The app integrates state management using Redux and navigation with React Navigation.
 
 ## 🖼 Screenshots
 
-| Home Screen                                 | Product List                              | Cart                                       |
+| Home Screen                                 | Product Screen                            | Sign In                                       |
 |---------------------------------------------|-------------------------------------------|--------------------------------------------|
-| ![Home Screen](path-to-home-screen-image.png) | ![Product List](path-to-product-list-image.png) | ![Cart Screen](path-to-cart-screen-image.png) |
+| ![Home Screen](https://github.com/faiziop05/E-Commerce/blob/main/Photos/ecom%20ss/e1.jpg) | ![Product Screen](https://github.com/faiziop05/E-Commerce/blob/main/Photos/ecom%20ss/e2.jpg) | ![Sign In](https://github.com/faiziop05/E-Commerce/blob/main/Photos/ecom%20ss/e3.jpg) |
 
 ## 📜 Features
 
